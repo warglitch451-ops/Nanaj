@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELOCITY X | Engineered to Defy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050505;
+            --bg-graphite: #121212;
+            --accent: #FF4D00;
+            --accent-hover: #E64500;
+            --text-main: #FFFFFF;
+            --text-muted: #A0A0A0;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .brand-font {
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.8), transparent);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        nav.scrolled {
+            padding: 15px 5%;
+            background: rgba(5, 5, 5, 0.95);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            transition: var(--transition);
+            opacity: 0.7;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--text-main);
+            transition: var(--transition);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4) contrast(1.1);
+            transform: scale(1.05);
+            transition: transform 10s ease;
+        }
+
+        .hero:hover .hero-bg img {
+            transform: scale(1);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 7rem);
+            line-height: 0.9;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: revealUp 1s forwards 0.5s;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 500px;
+            opacity: 0;
+            animation: revealUp 1s forwards 0.7s;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            animation: revealUp 1s forwards 0.9s;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 77, 0, 0.3);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border);
+            color: white;
+            background: transparent;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: black;
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            position: absolute;
+            bottom: 50px;
+            right: 5%;
+            display: flex;
+            gap: 60px;
+            opacity: 0;
+            animation: revealUp 1s forwards 1.2s;
+        }
+
+        .stat-item h3 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+
+        @keyframes revealUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Showcase Section */
+        .section-padding {
+            padding: 120px 5%;
+        }
+
+        .section-header {
+            margin-bottom: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            max-width: 600px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            background: var(--bg-graphite);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-main);
+        }
+
+        .vehicle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .vehicle-card {
+            background: var(--bg-graphite);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .vehicle-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+        }
+
+        .card-img {
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .vehicle-card:hover .card-img img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 30px;
+        }
+
+        .card-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .card-specs {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .card-spec-item span {
+            display: block;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .card-spec-item strong {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+
+        /* Performance Section */
+        .performance {
+            background: #000;
+            position: relative;
+        }
+
+        .perf-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .perf-visuals {
+            position: relative;
+        }
+
+        .perf-circle {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .perf-circle::after {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulse 4s infinite;
+        }
+
+        .perf-data {
+            text-align: center;
+        }
+
+        .perf-data h4 {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 0;
+        }
+
+        .perf-data span {
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .metric-bar {
+            margin-bottom: 30px;
+        }
+
+        .metric-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bar-bg {
+            height: 4px;
+            background: var(--border);
+            width: 100%;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.1; }
+            100% { transform: scale(1); opacity: 0.3; }
+        }
+
+        /* Story Section */
+        .story-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 150px;
+        }
+
+        .story-block:nth-child(even) {
+            direction: rtl;
+        }
+
+        .story-block:nth-child(even) .story-text {
+            direction: ltr;
+        }
+
+        .story-img {
+            height: 600px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .story-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.5);
+            transition: var(--transition);
+        }
+
+        .story-block:hover .story-img img {
+            filter: grayscale(0);
+            transform: scale(1.05);
+        }
+
+        .story-text h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            line-height: 1.1;
+        }
+
+        .story-text p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        /* Configurator */
+        .configurator {
+            background: var(--bg-graphite);
+            border-radius: 20px;
+            padding: 60px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 60px;
+        }
+
+        .config-preview {
+            position: relative;
+            background: radial-gradient(circle, #222 0%, #050505 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            overflow: hidden;
+        }
+
+        .config-preview img {
+            width: 90%;
+            z-index: 2;
+            transition: var(--transition);
+        }
+
+        .config-preview .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            filter: blur(150px);
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .config-controls h3 {
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+        }
+
+        .config-group {
+            margin-bottom: 40px;
+        }
+
+        .config-label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .option-grid {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .color-opt {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .color-opt.active {
+            border-color: white;
+            transform: scale(1.2);
+        }
+
+        .text-opt {
+            padding: 10px 20px;
+            background: #222;
+            border: 1px solid var(--border);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .text-opt.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .price-display {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .price-display h4 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+        }
+
+        .price-display span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* Innovation Section */
+        .innovation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .innov-card {
+            padding: 40px;
+            background: var(--bg-graphite);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .innov-card:hover {
+            background: #1a1a1a;
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .innov-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 77, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .innov-icon svg {
+            width: 25px;
+            fill: var(--accent);
+        }
+
+        .innov-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .innov-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 100px;
+        }
+
+        .contact-info h2 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+        }
+
+        .contact-form {
+            background: var(--bg-graphite);
+            padding: 50px;
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid var(--border);
+            padding: 15px;
+            color: white;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .success-msg {
+            display: none;
+            background: rgba(0, 255, 100, 0.1);
+            border: 1px solid #00ff64;
+            color: #00ff64;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            backdrop-filter: blur(15px);
+        }
+
+        .modal-content {
+            background: var(--bg-graphite);
+            max-width: 1000px;
+            width: 100%;
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border: 1px solid var(--border);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .modal-img {
+            height: 100%;
+        }
+
+        .modal-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 50px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 100px 5% 50px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 50px;
+            margin-bottom: 80px;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .footer-logo span {
+            color: var(--accent);
+        }
+
+        .footer-links h4 {
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .newsletter input {
+            width: 100%;
+            background: var(--bg-graphite);
+            border: 1px solid var(--border);
+            padding: 15px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .perf-grid, .story-block, .configurator, .contact-container, .modal-content {
+                grid-template-columns: 1fr;
+            }
+            .story-block {
+                margin-bottom: 80px;
+                gap: 40px;
+            }
+            .story-img {
+                height: 400px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--bg-deep);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 999;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+                z-index: 1001;
+            }
+            .hero-stats {
+                display: none;
+            }
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal {
+                padding: 20px;
+            }
+            .modal-body {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grain-overlay"></div>
+
+    <nav id="navbar">
+        <a href="#" class="logo">VELOCITY<span>X</span></a>
+        <div class="nav-links" id="navLinks">
+            <a href="#showcase">Vehicles</a>
+            <a href="#performance">Performance</a>
+            <a href="#story">Our Vision</a>
+            <a href="#configurator">Configurator</a>
+            <a href="#innovation">Innovation</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="https://images.unsplash.com/photo-1603584173870-7f3ca99a4741?auto=format&fit=crop&q=80&w=2000" alt="Supercar Hero">
+        </div>
+        <div class="hero-content">
+            <h1>ENGINEERED<br>TO DEFY.</h1>
+            <p>Beyond speed. Beyond limits. Beyond imagination. Experience the pinnacle of automotive engineering and futuristic design.</p>
+            <div class="hero-btns">
+                <a href="#showcase" class="btn btn-primary">Explore the Machine</a>
+                <a href="#story" class="btn btn-outline">Discover Our Vision</a>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <h3>1.9s</h3>
+                <p>0–100 KM/H</p>
+            </div>
+            <div class="stat-item">
+                <h3>420+</h3>
+                <p>TOP SPEED KM/H</p>
+            </div>
+            <div class="stat-item">
+                <h3>1800</h3>
+                <p>HORSEPOWER</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="showcase">
+        <div class="section-header">
+            <div>
+                <p style="color: var(--accent); letter-spacing: 3px; font-size: 0.7rem; margin-bottom: 10px;">THE FLEET</p>
+                <h2>PRECISION INSTRUMENTS.</h2>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All Models</button>
+                <button class="filter-btn" data-filter="hyper">Hyper</button>
+                <button class="filter-btn" data-filter="gt">Grand Tourer</button>
+            </div>
+        </div>
+
+        <div class="vehicle-grid">
+            <!-- Card 1 -->
+            <div class="vehicle-card" data-category="hyper" onclick="openModal('ignition')">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=800" alt="VX-1 Ignition">
+                </div>
+                <div class="card-content">
+                    <h3>VX-1 IGNITION</h3>
+                    <p>A track-focused monster designed for raw performance and aerodynamic dominance.</p>
+                    <div class="card-specs">
+                        <div class="card-spec-item">
+                            <span>Power</span>
+                            <strong>1800 HP</strong>
+                        </div>
+                        <div class="card-spec-item">
+                            <span>0-100</span>
+                            <strong>1.9s</strong>
+                        </div>
+                        <div class="card-spec-item">
+                            <span>Weight</span>
+                            <strong>1240kg</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="vehicle-card" data-category="gt" onclick="openModal('aether')">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=800" alt="VX-2 Aether">
+                </div>
+                <div class="card-content">
+                    <h3>VX-2 AETHER</h3>
+                    <p>The ultimate electric grand tourer. Silent power combined with unmatched luxury.</p>
+                    <div class="card-specs">
+                        <div class="card-spec-item">
+                            <span>Range</span>
+                            <strong>850km</strong>
+                        </div>
+                        <div class="card-spec-item">
+                            <span>0-100</span>
+                            <strong>2.4s</strong>
+                        </div>
+                        <div class="card-spec-item">
+                            <span>Drive</span>
+                            <strong>AWD</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="vehicle-card" data-category="hyper" onclick="openModal('horizon')">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&q=80&w=800" alt="VX-3 Horizon">
+                </div>
+                <div class="card-content">
+                    <h3>VX-3 HORIZON</h3>
+                    <p>Pushing the boundaries of what's possible. A concept car brought to reality.</p>
+                    <div class="card-specs">
+                        <div class="card-spec-item">
+                            <span>Top Speed</span>
+                            <strong>440km/h</strong>
+                        </div>
+                        <div class="card-spec-item">
+                            <span>Engine</span>
+                            <strong>Hybrid V12</strong>
+                        </div>
+                        <div class="card-spec-item">
+                            <span>Limited</span>
+                            <strong>25 Units</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding performance" id="performance">
+        <div class="perf-grid">
+            <div class="perf-visuals">
+                <div class="perf-circle">
+                    <div class="perf-data">
+                        <h4 id="perf-counter">0</h4>
+                        <span>KM/H</span>
+                    </div>
+                </div>
+            </div>
+            <div class="perf-metrics">
+                <p style="color: var(--accent); letter-spacing: 3px; font-size: 0.7rem; margin-bottom: 10px;">ENGINEERING DATA</p>
+                <h2 style="margin-bottom: 40px;">TECHNICAL SUPERIORITY.</h2>
+                
+                <div class="metric-bar">
+                    <div class="metric-info">
+                        <span>Aerodynamic Efficiency</span>
+                        <span>98%</span>
+                    </div>
+                    <div class="bar-bg"><div class="bar-fill" data-width="98%"></div></div>
+                </div>
+
+                <div class="metric-bar">
+                    <div class="metric-info">
+                        <span>Power-to-Weight Ratio</span>
+                        <span>1.45 HP/KG</span>
+                    </div>
+                    <div class="bar-bg"><div class="bar-fill" data-width="92%"></div></div>
+                </div>
+
+                <div class="metric-bar">
+                    <div class="metric-info">
+                        <span>Thermal Management</span>
+                        <span>Optimal</span>
+                    </div>
+                    <div class="bar-bg"><div class="bar-fill" data-width="85%"></div></div>
+                </div>
+
+                <div class="metric-bar">
+                    <div class="metric-info">
+                        <span>Torsional Stiffness</span>
+                        <span>45,000 NM/DEG</span>
+                    </div>
+                    <div class="bar-bg"><div class="bar-fill" data-width="95%"></div></div>
+                </div>
+                <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 20px;">* All specifications are fictional concept data for demonstration purposes.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="story">
+        <div class="story-block">
+            <div class="story-img">
+                <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1200" alt="Engineering Detail">
+            </div>
+            <div class="story-text">
+                <h2>POWER IS NOTHING WITHOUT PRECISION.</h2>
+                <p>At Velocity X, we don't just build cars; we sculpt the future of movement. Every curve is calculated, every component is refined, and every millisecond is accounted for.</p>
+                <p>Our philosophy is rooted in the belief that true performance comes from the perfect harmony of man and machine. We use carbon-fiber monocoques and active aerodynamics to cheat the wind.</p>
+                <a href="#" class="btn btn-outline">Read the Manifesto</a>
+            </div>
+        </div>
+
+        <div class="story-block">
+            <div class="story-img">
+                <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&q=80&w=1200" alt="Interior Detail">
+            </div>
+            <div class="story-text">
+                <h2>THE COCKPIT OF TOMORROW.</h2>
+                <p>Step into a sanctuary of speed. The interior of a Velocity X is a masterpiece of ergonomic design and futuristic luxury. Every control is within reach, every surface is premium.</p>
+                <p>Using sustainable materials and cutting-edge haptic interfaces, we provide a driving experience that is as intuitive as it is exhilarating. This is where emotion meets technology.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="configurator">
+        <div class="section-header">
+            <div>
+                <p style="color: var(--accent); letter-spacing: 3px; font-size: 0.7rem; margin-bottom: 10px;">PERSONALIZATION</p>
+                <h2>FORGE YOUR LEGACY.</h2>
+            </div>
+        </div>
+
+        <div class="configurator">
+            <div class="config-preview">
+                <div class="glow"></div>
+                <img src="https://images.unsplash.com/photo-1592198084033-aade902d1aae?auto=format&fit=crop&q=80&w=1000" id="config-car-img" alt="Configurator Preview">
+            </div>
+            <div class="config-controls">
+                <h3>VX-1 CONFIGURATOR</h3>
+                
+                <div class="config-group">
+                    <span class="config-label">Exterior Finish</span>
+                    <div class="option-grid">
+                        <div class="color-opt active" style="background: #050505;" data-type="color" data-value="Obsidian Black" data-price="0"></div>
+                        <div class="color-opt" style="background: #FF4D00;" data-type="color" data-value="Electric Orange" data-price="15000"></div>
+                        <div class="color-opt" style="background: #555555;" data-type="color" data-value="Titanium Grey" data-price="12000"></div>
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <span class="config-label">Wheel Style</span>
+                    <div class="option-grid">
+                        <button class="text-opt active" data-type="wheel" data-value="Aero-Blade" data-price="0">Aero-Blade</button>
+                        <button class="text-opt" data-type="wheel" data-value="Forged Carbon" data-price="25000">Forged Carbon</button>
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <span class="config-label">Interior Theme</span>
+                    <div class="option-grid">
+                        <button class="text-opt active" data-type="interior" data-value="Alcantara Noir" data-price="0">Alcantara Noir</button>
+                        <button class="text-opt" data-type="interior" data-value="Racing Crimson" data-price="8000">Racing Crimson</button>
+                    </div>
+                </div>
+
+                <div class="price-display">
+                    <span>Estimated Starting Price</span>
+                    <h4 id="config-price">$2,450,000</h4>
+                    <div style="display: flex; gap: 15px; margin-top: 20px;">
+                        <button class="btn btn-primary" style="padding: 12px 25px; font-size: 0.7rem;">Reserve Now</button>
+                        <button class="btn btn-outline" id="reset-config" style="padding: 12px 25px; font-size: 0.7rem;">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="innovation">
+        <div class="section-header">
+            <div>
+                <p style="color: var(--accent); letter-spacing: 3px; font-size: 0.7rem; margin-bottom: 10px;">INNOVATION</p>
+                <h2>THE TECH BEHIND THE THRILL.</h2>
+            </div>
+        </div>
+
+        <div class="innovation-grid">
+            <div class="innov-card">
+                <div class="innov-icon">
+                    <svg viewBox="0 0 24 24"><path d="M13,10V3L4,16H11V21L20,8H13Z"/></svg>
+                </div>
+                <h3>Electric Propulsion</h3>
+                <p>Next-generation solid-state batteries providing instant torque and incredible efficiency without the weight of traditional EVs.</p>
+            </div>
+            <div class="innov-card">
+                <div class="innov-icon">
+                    <svg viewBox="0 0 24 24"><path d="M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5Z"/></svg>
+                </div>
+                <h3>Active Aero</h3>
+                <p>Intelligent wing systems that adjust in real-time based on speed, G-force, and braking requirements for maximum downforce.</p>
+            </div>
+            <div class="innov-card">
+                <div class="innov-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/></svg>
+                </div>
+                <h3>Neural Drive</h3>
+                <p>An AI-assisted traction system that predicts road conditions and adjusts suspension damping 1000 times per second.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <p style="color: var(--accent); letter-spacing: 3px; font-size: 0.7rem; margin-bottom: 10px;">INQUIRIES</p>
+                <h2>YOUR NEXT CHAPTER STARTS AT FULL THROTTLE.</h2>
+                <p style="color: var(--text-muted); margin-top: 30px;">Our concierge team is ready to assist you in commissioning your bespoke Velocity X. Reach out to schedule a private viewing.</p>
+            </div>
+            <div class="contact-form">
+                <form id="inquiryForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="name" required placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="email" required placeholder="email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Preferred Model</label>
+                        <select id="model">
+                            <option>VX-1 Ignition</option>
+                            <option>VX-2 Aether</option>
+                            <option>VX-3 Horizon</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="message" rows="4" placeholder="Tell us about your requirements"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Inquiry</button>
+                    <div id="successMsg" class="success-msg">Thank you. Our specialists will contact you shortly.</div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <a href="#" class="footer-logo brand-font">VELOCITY<span>X</span></a>
+                <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 300px;">Redefining the boundaries of automotive excellence through innovation, design, and raw power.</p>
+            </div>
+            <div class="footer-links">
+                <h4>NAVIGATION</h4>
+                <ul>
+                    <li><a href="#showcase">Vehicles</a></li>
+                    <li><a href="#performance">Performance</a></li>
+                    <li><a href="#configurator">Configurator</a></li>
+                    <li><a href="#innovation">Innovation</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>LEGAL</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                </ul>
+            </div>
+            <div class="newsletter">
+                <h4>STAY UPDATED</h4>
+                <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 20px;">Join our exclusive circle for the latest news and private events.</p>
+                <input type="email" placeholder="Your Email Address">
+                <button class="btn btn-outline" style="width: 100%; padding: 12px;">Subscribe</button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 VELOCITY X AUTOMOTIVE. ALL RIGHTS RESERVED.</p>
+            <div class="social-links">
+                <a href="#">INSTAGRAM</a>
+                <a href="#">TWITTER</a>
+                <a href="#">YOUTUBE</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Vehicle Modal -->
+    <div class="modal" id="vehicleModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-img">
+                <img id="modalImg" src="" alt="Vehicle Detail">
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--accent); letter-spacing: 3px; font-size: 0.7rem; margin-bottom: 10px;" id="modalTag">HYPERCAR</p>
+                <h2 id="modalTitle" style="margin-bottom: 20px;"></h2>
+                <p id="modalDesc" style="color: var(--text-muted); margin-bottom: 30px;"></p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;">
+                    <div class="card-spec-item">
+                        <span>Top Speed</span>
+                        <strong id="modalSpeed"></strong>
+                    </div>
+                    <div class="card-spec-item">
+                        <span>Acceleration</span>
+                        <strong id="modalAccel"></strong>
+                    </div>
+                    <div class="card-spec-item">
+                        <span>Chassis</span>
+                        <strong>Carbon Monocoque</strong>
+                    </div>
+                    <div class="card-spec-item">
+                        <span>Production</span>
+                        <strong>Hand-built</strong>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="closeModal()">Close Details</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const spans = menuToggle.querySelectorAll('span');
+            spans[0].style.transform = navLinks.classList.contains('active') ? 'rotate(45deg) translate(5px, 5px)' : 'none';
+            spans[1].style.opacity = navLinks.classList.contains('active') ? '0' : '1';
+            spans[2].style.transform = navLinks.classList.contains('active') ? 'rotate(-45deg) translate(7px, -7px)' : 'none';
+        });
+
+        // Vehicle Filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const vehicleCards = document.querySelectorAll('.vehicle-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+
+                vehicleCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Modal Logic
+        const vehicleData = {
+            ignition: {
+                title: "VX-1 IGNITION",
+                tag: "TRACK FOCUSED HYPERCAR",
+                desc: "The Ignition is our most aggressive platform yet. Every aerodynamic element is functional, producing over 800kg of downforce at 250km/h.",
+                speed: "420 KM/H",
+                accel: "1.9s 0-100",
+                img: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=800"
+            },
+            aether: {
+                title: "VX-2 AETHER",
+                tag: "ELECTRIC GRAND TOURER",
+                desc: "Luxury meets lightning. The Aether provides a whisper-quiet cabin with 1800nm of instantaneous torque. Redefining long-distance travel.",
+                speed: "320 KM/H",
+                accel: "2.4s 0-100",
+                img: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=800"
+            },
+            horizon: {
+                title: "VX-3 HORIZON",
+                tag: "HYBRID MASTERPIECE",
+                desc: "The Horizon utilizes a kinetic energy recovery system paired with a high-revving V12 engine. A symphony of mechanical and electrical power.",
+                speed: "440 KM/H",
+                accel: "2.1s 0-100",
+                img: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&q=80&w=800"
+            }
+        };
+
+        function openModal(carKey) {
+            const data = vehicleData[carKey];
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalTag').innerText = data.tag;
+            document.getElementById('modalDesc').innerText = data.desc;
+            document.getElementById('modalSpeed').innerText = data.speed;
+            document.getElementById('modalAccel').innerText = data.accel;
+            document.getElementById('modalImg').src = data.img;
+            document.getElementById('vehicleModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('vehicleModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Performance Counter and Bars Animation
+        const perfSection = document.querySelector('.performance');
+        const counters = document.getElementById('perf-counter');
+        const bars = document.querySelectorAll('.bar-fill');
+        let animated = false;
+
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !animated) {
+                // Counter animation
+                let count = 0;
+                const target = 420;
+                const interval = setInterval(() => {
+                    count += 7;
+                    counters.innerText = count;
+                    if (count >= target) {
+                        counters.innerText = target;
+                        clearInterval(interval);
+                    }
+                }, 30);
+
+                // Bar animation
+                bars.forEach(bar => {
+                    bar.style.width = bar.dataset.width;
+                });
+
+                animated = true;
+            }
+        }, { threshold: 0.5 });
+
+        observer.observe(perfSection);
+
+        // Configurator Logic
+        const configOptions = {
+            color: { value: "Obsidian Black", price: 0 },
+            wheel: { value: "Aero-Blade", price: 0 },
+            interior: { value: "Alcantara Noir", price: 0 }
+        };
+        const basePrice = 2450000;
+
+        const colorImgs = {
+            "Obsidian Black": "https://images.unsplash.com/photo-1592198084033-aade902d1aae?auto=format&fit=crop&q=80&w=1000",
+            "Electric Orange": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1000",
+            "Titanium Grey": "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000"
+        };
+
+        function updateConfig() {
+            const totalPrice = basePrice + configOptions.color.price + configOptions.wheel.price + configOptions.interior.price;
+            document.getElementById('config-price').innerText = `$${totalPrice.toLocaleString()}`;
+            document.getElementById('config-car-img').src = colorImgs[configOptions.color.value];
+        }
+
+        document.querySelectorAll('.color-opt, .text-opt').forEach(opt => {
+            opt.addEventListener('click', function() {
+                const type = this.dataset.type;
+                // Remove active from siblings
+                this.parentElement.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+                
+                configOptions[type].value = this.dataset.value;
+                configOptions[type].price = parseInt(this.dataset.price);
+                updateConfig();
+            });
+        });
+
+        document.getElementById('reset-config').addEventListener('click', () => {
+            configOptions.color = { value: "Obsidian Black", price: 0 };
+            configOptions.wheel = { value: "Aero-Blade", price: 0 };
+            configOptions.interior = { value: "Alcantara Noir", price: 0 };
+            
+            document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+            document.querySelector('[data-value="Obsidian Black"]').classList.add('active');
+            document.querySelector('[data-value="Aero-Blade"]').classList.add('active');
+            document.querySelector('[data-value="Alcantara Noir"]').classList.add('active');
+            
+            updateConfig();
+        });
+
+        // Form Submission
+        document.getElementById('inquiryForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const success = document.getElementById('successMsg');
+            
+            btn.innerText = "SENDING...";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                e.target.reset();
+                btn.style.display = 'none';
+                success.style.display = 'block';
+            }, 1500);
+        });
+
+        // Smooth Parallax for Hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroImg = document.querySelector('.hero-bg img');
+            heroImg.style.transform = `scale(1.05) translateY(${scrolled * 0.3}px)`;
+        });
+    </script>
+</body>
+</html></html>
